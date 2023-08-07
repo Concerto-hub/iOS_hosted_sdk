@@ -1,2 +1,1 @@
-# iOS_hosted SDK
-iOS_hosted
+# ios_hostedFramework

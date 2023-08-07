@@ -63,6 +63,8 @@ class PaymentInteractor: IPaymentInteractor {
         let tokenizationType: String = model.tokenizationType ?? "0"
         let holderName: String = model.holderName ?? ""
         
+        let metaData: String = model.metaData ?? ""
+        
         if action == "1" || action == "4"
         {
             tokenOperation = ""
@@ -74,8 +76,31 @@ class PaymentInteractor: IPaymentInteractor {
             "content-type": "application/json",
             "cache-control": "no-cache",
           ]
+        //value for device
+        //
+        var deviceInfo:[String: Any] = [:]
+        
+        let ModelName = UIDevice.current.name
+        let version = UIDevice.current.systemVersion
+        let platfrom = UIDevice.current.model
+        
+        print(ModelName)          // iPhone XR
+        print(version)       // 12.1
+        print(platfrom)     // iPhone
+        
+        
+        deviceInfo = [
+            "pluginName": "Native iOS",
+            "pluginVersion": "1.0",
+            "pluginPlatform": platfrom,
+            "deviceModel": ModelName,
+            "devicePlatform": platfrom,
+            "deviceOSVersion": version
+        ]
+        
+        print(deviceInfo)
   
-            let strIPAddress = Validator().getWiFiAddress()
+        let strIPAddress = Validator().getWiFiAddress()
         print("IPAddress :: \(strIPAddress)")
         
         let parameters = [
@@ -104,7 +129,9 @@ class PaymentInteractor: IPaymentInteractor {
             "cardToken": cardTocken,
             "tokenizationType": tokenizationType,
             "instrumentType" : "DEFAULT",
-            "cardHolderName": holderName
+            "cardHolderName": holderName,
+            "metaData": metaData
+            //"deviceInfo": deviceInfo
             ] as [String : Any]
         
         
@@ -395,7 +422,7 @@ extension PaymentInteractor {
             return sha256String
         }
         return ""
-    } 
+    }
     
 }
 
